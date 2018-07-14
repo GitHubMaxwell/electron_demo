@@ -1,5 +1,10 @@
 // const ipc = require('ipc');
 const {app, BrowserWindow, ipcMain} = require('electron');
+// const quizOperations = require('./src/quiz/quiz-operations.js');
+// const rosterOperations = require('./src/roster/roster-operations.js');
+const AWO = require('./src/anotherwindow/another-window-operations.js');
+
+
 
 //mangage all windows in the main.js
 // best practice to wrap everything in the app.on('ready', )
@@ -9,19 +14,25 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 let win;
 
 function mainWindow () {
-  // Create the browser window.
   win = new BrowserWindow({
     frame: false,
     width: 900, 
     height: 600,
   });
-  
-  // and load the index.html of the app.
-  win.loadFile('./src/public/index.html');
+  win.loadFile('./src/public/main.html');
   //  mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 }
 
 function anotherWindow () {
+  win = new BrowserWindow({
+    width: 900, 
+    height: 600,
+    // show: false,
+  });
+  win.loadFile('./src/anotherwindow/another-window.html');
+}
+
+function quizWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     width: 900, 
@@ -29,7 +40,7 @@ function anotherWindow () {
     // show: false,
   });
   // win.webContents.openDevTools();
-  win.loadFile('./src/anotherwindow/another.html');
+  win.loadFile('./src/quiz/quiz-window.html');
   //  mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 }
   
@@ -62,7 +73,9 @@ app.on('activate', () => {
 });
 
 ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg); // prints "ping"
+  let aWOps = AWO;
+  aWOps(arg); // should print 'ping'
+  // console.log(arg); // prints "ping"
   event.sender.send('asynchronous-reply', 'pong');
 });
   
