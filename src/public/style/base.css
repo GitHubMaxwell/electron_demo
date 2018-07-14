@@ -1,0 +1,8 @@
+body {
+    -webkit-app-region: drag;
+    /*but you'll have to make clickable items like buttont the -webkit-app-region: no-drag;*/
+    background-color: #1E1E1E;
+}
+* {
+    color:#CCCCCC;
+}
